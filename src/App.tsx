@@ -579,19 +579,6 @@ export default function App() {
             }}>
               <CurrentTimeClock />
             </div>
-            {/* Badge */}
-            <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: 28, maxWidth: 520, margin: '0 auto 28px' }}>
-              <span style={{
-                display: 'inline-flex', alignItems: 'center', gap: 6,
-                background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)',
-                borderRadius: 999, padding: '6px 14px', fontSize: 12, color: 'rgba(255,255,255,0.75)',
-                backdropFilter: 'blur(6px)',
-              }}>
-                <SparkleIcon size={12} />
-                Powers the BusData app · No sign-up
-              </span>
-            </div>
-
             {/* Logo row */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24, maxWidth: 520, margin: '0 auto 24px' }}>
               <div style={{
