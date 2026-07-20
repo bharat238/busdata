@@ -57,6 +57,20 @@ function formatTime(hhmm: string): string {
   return minutesTo12h(hhmm24ToMinutes(hhmm))
 }
 
+function formatTimeAgo(isoString: string): string {
+  const now = new Date()
+  const created = new Date(isoString)
+  const diffMs = now.getTime() - created.getTime()
+  const diffMins = Math.floor(diffMs / (1000 * 60))
+  const diffHours = Math.floor(diffMs / (1000 * 60 * 60))
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
+
+  if (diffMins < 1) return 'just now'
+  if (diffMins < 60) return `${diffMins}m ago`
+  if (diffHours < 24) return `${diffHours}h ago`
+  return `${diffDays}d ago`
+}
+
 // ─── Icons ─────────────────────────────────────────────────────────────────────
 function BusIcon({ size = 16, color = 'currentColor' }: { size?: number; color?: string }) {
   return (
@@ -367,34 +381,63 @@ const dropdownItem: React.CSSProperties = {
 function ReportCard({ report }: { report: BusReport }) {
   const arrivalDisplay = formatTime(report.arrival_time)
   const departureDisplay = report.departure_time ? formatTime(report.departure_time) : null
+  const timeAgo = formatTimeAgo(report.created_at)
 
   return (
     <div style={{
-      background: '#fff', borderRadius: 14, border: '1.5px solid #E5E7EB',
-      padding: '16px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+      background: '#fff', borderRadius: 16, border: '1px solid #E5E7EB',
+      padding: '16px', boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
     }}>
-      {/* Bus name */}
-      <div style={{ fontSize: 16, fontWeight: 700, color: '#111', lineHeight: 1.4, marginBottom: 8 }}>
-        {report.bus_name}
+      {/* Header row with bus icon, bus name pill, and time ago */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, gap: 12 }}>
+        {/* Bus icon - separate element */}
+        <div style={{
+          width: 32, height: 32, borderRadius: 8, background: '#F3F4F6',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <BusIcon size={16} color="#6B7280" />
+        </div>
+        
+        {/* Bus name pill badge - auto width, no truncation */}
+        <div style={{
+          display: 'flex', alignItems: 'center',
+          background: '#F3F4F6', borderRadius: 999,
+          padding: '6px 12px', flex: 1, minWidth: -0,
+        }}>
+          <span style={{
+            fontSize: 14, fontWeight: 600, color: '#111',
+            whiteSpace: 'normal', wordBreak: 'break-word',
+          }}>
+            {report.bus_name}
+          </span>
+        </div>
+        
+        {/* Time ago */}
+        <div style={{ fontSize: 12, color: '#9CA3AF', fontWeight: 500, whiteSpace: 'nowrap' }}>
+          {timeAgo}
+        </div>
       </div>
 
       {/* Arrival and departure time */}
-      <div style={{ fontSize: 14, fontWeight: 500, color: '#374151', marginBottom: 8 }}>
+      <div style={{ fontSize: 16, fontWeight: 600, color: '#1F2937', marginBottom: 8 }}>
         Arrival {arrivalDisplay}
         {departureDisplay && <span> · Departure {departureDisplay}</span>}
       </div>
 
       {/* Route */}
-      <div style={{ fontSize: 14, color: '#6B7280', marginBottom: report.note ? 12 : 0 }}>
+      <div style={{ fontSize: 16, fontWeight: 600, color: '#1F2937', marginBottom: report.note ? 12 : 0 }}>
         {report.from_place} → {report.to_place}
       </div>
 
-      {/* Note */}
+      {/* Note in distinct background box */}
       {report.note && (
         <div style={{
-          fontSize: 14, color: '#374151', lineHeight: 1.5,
+          background: '#F9FAFB', borderRadius: 10, border: '1px solid #E5E7EB',
+          padding: '12px', marginTop: 8,
         }}>
-          {report.note}
+          <div style={{ fontSize: 14, color: '#374151', lineHeight: 1.5 }}>
+            {report.note}
+          </div>
         </div>
       )}
     </div>
