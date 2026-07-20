@@ -580,7 +580,7 @@ export default function App() {
               <CurrentTimeClock />
             </div>
             {/* Logo row */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16, maxWidth: 520, margin: '0 auto 16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12, maxWidth: 520, margin: '0 auto 12px' }}>
               <div style={{
                 width: 36, height: 36, borderRadius: '50%', background: '#fff',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
@@ -597,13 +597,13 @@ export default function App() {
             {/* Headline */}
             <div style={{ maxWidth: 520, margin: '0 auto' }}>
               <h1 style={{
-                fontSize: 'clamp(28px, 6vw, 40px)', fontWeight: 800, color: '#fff',
+                fontSize: 'clamp(32px, 7vw, 44px)', fontWeight: 800, color: '#fff',
                 lineHeight: 1.15, letterSpacing: '-0.5px', margin: '0 0 16px',
               }}>
                 Share real bus arrival & departure times.
               </h1>
               <p style={{
-                fontSize: 15, color: 'rgba(255,255,255,0.55)', lineHeight: 1.7,
+                fontSize: 16, color: 'rgba(255,255,255,0.55)', lineHeight: 1.7,
                 maxWidth: 360, margin: 0,
               }}>
                 Anyone can add a bus timing here. Every entry feeds the BusData app's database so everyone gets a more honest picture of when buses actually come and go.
