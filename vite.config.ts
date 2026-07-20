@@ -29,7 +29,7 @@ export default defineConfig({
     figmaMakeKitPlugin({ storiesGlob: '/src/**/*.stories.{ts,tsx,js,jsx}' }),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
+      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg', 'icon-192.png', 'icon-512.png'],
       manifest: {
         name: 'BusData',
         short_name: 'BusData',
@@ -42,17 +42,17 @@ export default defineConfig({
         start_url: '/',
         icons: [
           {
-            src: 'src/imports/image_8d0608d.png',
+            src: '/icon-192.png',
             sizes: '192x192',
             type: 'image/png',
           },
           {
-            src: 'src/imports/image_8d0608d.png',
+            src: '/icon-512.png',
             sizes: '512x512',
             type: 'image/png',
           },
           {
-            src: 'src/imports/image_8d0608d.png',
+            src: '/icon-512.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any maskable',
