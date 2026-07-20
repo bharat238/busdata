@@ -573,14 +573,14 @@ export default function App() {
             {/* Real-time capsule clock */}
             <div style={{
               position: 'absolute',
-              top: 16,
+              top: 8,
               right: 16,
               zIndex: 50,
             }}>
               <CurrentTimeClock />
             </div>
             {/* Logo row */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24, maxWidth: 520, margin: '0 auto 24px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16, maxWidth: 520, margin: '0 auto 16px' }}>
               <div style={{
                 width: 36, height: 36, borderRadius: '50%', background: '#fff',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
