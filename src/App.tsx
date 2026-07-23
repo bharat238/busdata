@@ -458,7 +458,7 @@ export default function App() {
   const [toPlace, setToPlace] = useState('')
   const [busName, setBusName] = useState('')
   const [arrivalMins, setArrivalMins] = useState(nowMinutes)
-  const [hasDeparture, setHasDeparture] = useState(true)
+  const [hasDeparture, setHasDeparture] = useState(false)
   const [departureMins, setDepartureMins] = useState(() => nowMinutes())
   const [note, setNote] = useState('')
   const [submitting, setSubmitting] = useState(false)
@@ -551,7 +551,7 @@ export default function App() {
     setSubmitted(true)
     setFromPlace(''); setToPlace(''); setBusName(''); setNote('')
     setArrivalMins(nowMinutes()); setDepartureMins(nowMinutes())
-    setHasDeparture(true)
+    setHasDeparture(false)
     setTimeout(() => setSubmitted(false), 4000)
   }
 
