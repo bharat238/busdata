@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { supabase, supabaseConfigured, type BusReport } from './lib/supabase'
 import { Bus, Check, ChevronDown, ChevronUp, MapPin, Send, Sparkles } from "lucide-react";
 import logoImage from './imports/image_8d0608d.png'
+import InstallPrompt from './components/InstallPrompt'
 
 // ─── Demo data shown when Supabase is not connected ───────────────────────────
 const DEMO_REPORTS: BusReport[] = [
@@ -905,6 +906,8 @@ export default function App() {
           </span>
         </button>
       </div>
+
+      <InstallPrompt />
 
     </div>
   )
