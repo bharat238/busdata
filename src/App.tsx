@@ -200,10 +200,8 @@ function TimeStepper({ value, onChange }: { value: number; onChange: (v: number)
   const mn = norm % 60
 
   const adjust = (delta: number) => onChange(value + delta)
-  const setNow = () => onChange(nowMinutes())
 
-  const nudges1 = [-15, -5, -1, 1, 5]
-  const nudges2 = [15]
+  const nudges = [-15, -5, -1, 1, 5, 15]
 
   return (
     <div style={{ background: '#F3F4F6', borderRadius: 12, padding: '14px 14px 12px', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
@@ -245,25 +243,13 @@ function TimeStepper({ value, onChange }: { value: number; onChange: (v: number)
         </div>
       </div>
 
-      {/* Nudge row 1 */}
+      {/* Nudge buttons */}
       <div style={{ display: 'flex', gap: 6, marginTop: 10 }}>
-        {nudges1.map(n => (
+        {nudges.map(n => (
           <button key={n} onClick={() => adjust(n)} style={nudgeBtn}>
             {n > 0 ? `+${n}m` : `${n}m`}
           </button>
         ))}
-      </div>
-
-      {/* Nudge row 2 */}
-      <div style={{ display: 'flex', gap: 6, marginTop: 6, alignItems: 'center' }}>
-        {nudges2.map(n => (
-          <button key={n} onClick={() => adjust(n)} style={nudgeBtn}>
-            +{n}m
-          </button>
-        ))}
-        <button onClick={setNow} style={{ ...nudgeBtn, marginLeft: 'auto', background: '#374151', color: '#fff', borderColor: '#374151' }}>
-          Set to now
-        </button>
       </div>
     </div>
   )
