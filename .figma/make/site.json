@@ -1,1 +1,14 @@
-{}
+{
+  "title": "BusData",
+  "description": "Share real bus arrival & departure times.",
+  "language": "en",
+  "icons": {
+    "icon": "/icon-192.png"
+  },
+  "openGraph": {
+    "image": "/icon-512.png"
+  },
+  "robots": {
+    "index": true
+  }
+}
