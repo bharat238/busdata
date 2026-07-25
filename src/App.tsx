@@ -201,7 +201,7 @@ function TimeStepper({ value, onChange }: { value: number; onChange: (v: number)
 
   const adjust = (delta: number) => onChange(value + delta)
 
-  const nudges = [-15, -5, -1, 1, 5, 15]
+  const nudges = [-15, -1, 1, 15]
 
   return (
     <div style={{ background: '#F3F4F6', borderRadius: 12, padding: '14px 14px 12px', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
@@ -244,7 +244,7 @@ function TimeStepper({ value, onChange }: { value: number; onChange: (v: number)
       </div>
 
       {/* Nudge buttons */}
-      <div style={{ display: 'flex', gap: 6, marginTop: 10 }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 10 }}>
         {nudges.map(n => (
           <button key={n} onClick={() => adjust(n)} style={nudgeBtn}>
             {n > 0 ? `+${n}m` : `${n}m`}
