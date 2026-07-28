@@ -455,15 +455,47 @@ export default function App() {
 
   // Detect keyboard open/close for mobile
   useEffect(() => {
+    const initialHeight = window.innerHeight
+    let isKeyboardOpen = false
+
     const handleResize = () => {
-      if (window.visualViewport) {
-        const heightDiff = window.innerHeight - window.visualViewport.height
-        setIsKeyboardOpen(heightDiff > 150)
+      const currentHeight = window.innerHeight
+      const heightDiff = initialHeight - currentHeight
+      // Keyboard is considered open if height decreases by more than 100px
+      isKeyboardOpen = heightDiff > 100
+      setIsKeyboardOpen(isKeyboardOpen)
+    }
+
+    const handleFocusIn = (e: FocusEvent) => {
+      const target = e.target as HTMLElement
+      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
+        // When input is focused, assume keyboard might open
+        setTimeout(() => {
+          const currentHeight = window.innerHeight
+          const heightDiff = initialHeight - currentHeight
+          if (heightDiff > 100) {
+            setIsKeyboardOpen(true)
+          }
+        }, 300)
       }
     }
 
-    window.visualViewport?.addEventListener('resize', handleResize)
-    return () => window.visualViewport?.removeEventListener('resize', handleResize)
+    const handleFocusOut = () => {
+      // When input loses focus, keyboard should close
+      setTimeout(() => {
+        setIsKeyboardOpen(false)
+      }, 300)
+    }
+
+    window.addEventListener('resize', handleResize)
+    document.addEventListener('focusin', handleFocusIn)
+    document.addEventListener('focusout', handleFocusOut)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+      document.removeEventListener('focusin', handleFocusIn)
+      document.removeEventListener('focusout', handleFocusOut)
+    }
   }, [])
 
   // Load reports
