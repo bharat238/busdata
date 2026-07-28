@@ -439,6 +439,7 @@ export default function App() {
   const [busSuggestions, setBusSuggestions] = useState<string[]>(['KSRTC Express', 'KTC Sleeper', 'Sharma Travels', 'Paulo Travels'])
   const [activePage, setActivePage] = useState<'home' | 'data'>('home')
   const [loading, setLoading] = useState(false)
+  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false)
 
   // Form state
   const [fromPlace, setFromPlace] = useState('')
@@ -451,6 +452,19 @@ export default function App() {
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
   const [submitted, setSubmitted] = useState(false)
+
+  // Detect keyboard open/close for mobile
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.visualViewport) {
+        const heightDiff = window.innerHeight - window.visualViewport.height
+        setIsKeyboardOpen(heightDiff > 150)
+      }
+    }
+
+    window.visualViewport?.addEventListener('resize', handleResize)
+    return () => window.visualViewport?.removeEventListener('resize', handleResize)
+  }, [])
 
   // Load reports
   const loadReports = useCallback(async () => {
@@ -813,19 +827,20 @@ export default function App() {
       )}
 
       {/* Bottom Tab Navigation */}
-      <div style={{
-        position: 'fixed',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        background: '#fff',
-        borderTop: '1px solid #E5E7EB',
-        display: 'flex',
-        justifyContent: 'space-around',
-        padding: '8px 0',
-        paddingBottom: 'calc(8px + env(safe-area-inset-bottom))',
-        zIndex: 1000,
-      }}>
+      {!isKeyboardOpen && (
+        <div style={{
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          background: '#fff',
+          borderTop: '1px solid #E5E7EB',
+          display: 'flex',
+          justifyContent: 'space-around',
+          padding: '8px 0',
+          paddingBottom: 'calc(8px + env(safe-area-inset-bottom))',
+          zIndex: 1000,
+        }}>
         {/* Home Tab */}
         <button
           onClick={() => setActivePage('home')}
@@ -892,6 +907,7 @@ export default function App() {
           </span>
         </button>
       </div>
+      )}
 
       <InstallPrompt />
 
