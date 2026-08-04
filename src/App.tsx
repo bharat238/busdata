@@ -831,7 +831,49 @@ export default function App() {
         <div style={{
           background: 'radial-gradient(ellipse 80% 60% at 20% 0%, rgba(245,158,11,0.12) 0%, transparent 60%), linear-gradient(160deg, #0F172A 0%, #0B0F0E 100%)',
           minHeight: '100vh',
+          position: 'relative',
         }}>
+          {/* Clock and settings button */}
+          <div style={{
+            position: 'absolute',
+            top: 8,
+            right: 16,
+            zIndex: 50,
+            display: 'flex',
+            gap: 8,
+            alignItems: 'center',
+          }}>
+            <CurrentTimeClock />
+            <button
+              onClick={() => {
+                const event = new CustomEvent('settings-trigger')
+                document.dispatchEvent(event)
+              }}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: 'rgba(255, 255, 255, 0.08)',
+                border: '1px solid rgba(255, 255, 255, 0.15)',
+                borderRadius: '9999px',
+                padding: '6px',
+                color: '#ffffff',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+                cursor: 'pointer',
+                transition: 'background 0.2s',
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.12)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'}
+            >
+              <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                <circle cx="12" cy="12" r="3" />
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+              </svg>
+            </button>
+          </div>
+
           {/* Header with Logo */}
           <div style={{ padding: '32px 20px 24px', maxWidth: 560, margin: '0 auto' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
@@ -974,7 +1016,7 @@ export default function App() {
       )}
 
       <InstallPrompt />
-      <Settings showFloatingButton={activePage !== 'home'} />
+      <Settings showFloatingButton={false} />
 
     </div>
   )
