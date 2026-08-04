@@ -67,6 +67,14 @@ export default defineConfig({
           },
         ],
       },
+      // Use custom service worker for push notification handling
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+        navigateFallback: '/',
+        additionalManifestEntries: [
+          { url: '/sw.js', revision: Date.now().toString() }
+        ]
+      },
     }),
   ],
   resolve: {
