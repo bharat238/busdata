@@ -1,7 +1,72 @@
-// Custom service worker for push notification handling
+// Custom service worker for push notification handling and update lifecycle
+
+const CACHE_VERSION = 'v1'
+const CACHE_NAME = `busdata-${CACHE_VERSION}`
+
+// Install event - skip waiting to activate immediately
+self.addEventListener('install', (event) => {
+  console.log('[SW] Installing new service worker')
+  self.skipWaiting()
+})
+
+// Activate event - claim clients and clean old caches
+self.addEventListener('activate', (event) => {
+  console.log('[SW] Activating new service worker')
+  event.waitUntil(
+    Promise.all([
+      // Take control of all clients immediately
+      self.clients.claim(),
+      // Delete old caches
+      caches.keys().then((cacheNames) => {
+        return Promise.all(
+          cacheNames.map((cacheName) => {
+            if (cacheName !== CACHE_NAME && cacheName.startsWith('busdata-')) {
+              console.log('[SW] Deleting old cache:', cacheName)
+              return caches.delete(cacheName)
+            }
+          })
+        )
+      })
+    ])
+  )
+})
+
+// Fetch event - network-first for navigation, cache-first for assets
+self.addEventListener('fetch', (event) => {
+  const url = new URL(event.request.url)
+
+  // Network-first for navigation requests (HTML)
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          // Cache the fresh response
+          const responseClone = response.clone()
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseClone)
+          })
+          return response
+        })
+        .catch(() => {
+          // If network fails, try cache
+          return caches.match(event.request)
+        })
+    )
+    return
+  }
+
+  // For non-navigation requests, let Workbox handle caching
+  event.respondWith(
+    caches.match(event.request).then((response) => {
+      return response || fetch(event.request)
+    })
+  )
+})
+
+// Push notification handling
 self.addEventListener('push', (event) => {
   const data = event.data?.json()
-  
+
   const title = data?.title || 'Log your bus trip'
   const body = data?.body || 'Tap to record the bus you just rode'
   const icon = '/icon-192.png'
