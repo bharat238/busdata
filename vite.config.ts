@@ -14,6 +14,7 @@ const isFigmaSandbox = process.env.FIGMA === '1' || process.env.FIGMA === 'true'
 const emitSourcemaps = process.env.EMIT_SOURCEMAPS === 'true'
 
 // Vite config — https://vitejs.dev/config/
+// Trigger redeploy to pick up VITE_VAPID_PUBLIC_KEY env var
 export default defineConfig({
   base: process.env.FIGMA_PUBLIC_URL ? `${process.env.FIGMA_PUBLIC_URL}/` : '/',
   build: {
