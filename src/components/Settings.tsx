@@ -27,6 +27,13 @@ export default function Settings({ showFloatingButton = true }: { showFloatingBu
     checkSubscriptionStatus()
   }, [])
 
+  // Re-check subscription status when settings modal is opened
+  useEffect(() => {
+    if (isOpen) {
+      checkSubscriptionStatus()
+    }
+  }, [isOpen])
+
   const checkSubscriptionStatus = async () => {
     if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
       return
@@ -39,18 +46,31 @@ export default function Settings({ showFloatingButton = true }: { showFloatingBu
 
       if (subscription && supabaseConfigured && supabase) {
         // Check mute status from Supabase
-        const { data } = await supabase
+        const { data, error } = await supabase
           .from('push_subscriptions')
           .select('muted')
           .eq('endpoint', subscription.endpoint)
           .single()
         
-        if (data) {
+        if (error) {
+          console.error('Error fetching mute status:', error)
+          // Default to muted=true if we can't fetch the status to avoid showing incorrect ON state
+          setIsMuted(true)
+        } else if (data) {
           setIsMuted(data.muted || false)
+        } else {
+          // No data found - subscription might not be in database yet
+          // Default to muted=true to be safe
+          setIsMuted(true)
         }
+      } else if (!subscription) {
+        // No subscription exists
+        setIsMuted(false)
       }
     } catch (e) {
       console.error('Error checking subscription:', e)
+      // Default to muted=true on error to avoid showing incorrect ON state
+      setIsMuted(true)
     }
   }
 
@@ -121,6 +141,7 @@ export default function Settings({ showFloatingButton = true }: { showFloatingBu
       }
 
       setIsSubscribed(true)
+      setIsMuted(false) // Explicitly set muted to false for new subscriptions
       setShowOptIn(false)
       localStorage.setItem('pushOptInSeen', 'true')
     } catch (e) {
