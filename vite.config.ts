@@ -29,6 +29,9 @@ export default defineConfig({
     figmaReactRefreshBoundaryFallback(),
     figmaMakeKitPlugin({ storiesGlob: '/src/**/*.stories.{ts,tsx,js,jsx}' }),
     VitePWA({
+      strategies: 'injectManifest',
+      srcDir: 'src',
+      filename: 'sw.js',
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg', 'icon-192.png', 'icon-512.png'],
       manifest: {
@@ -68,13 +71,9 @@ export default defineConfig({
           },
         ],
       },
-      // Use custom service worker for push notification handling
-      workbox: {
+      // Use custom service worker with injectManifest for push notification handling
+      injectManifest: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
-        navigateFallback: '/',
-        additionalManifestEntries: [
-          { url: '/sw.js', revision: Date.now().toString() }
-        ]
       },
     }),
   ],
