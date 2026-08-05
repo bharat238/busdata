@@ -64,8 +64,8 @@ serve(async (req) => {
 
     // Prepare notification payload
     const payload = JSON.stringify({
-      title: 'Log your bus trip',
-      body: 'Tap to record the bus you just rode'
+      title: "Didn't fill the bus data?",
+      body: 'Tap now before you forget which bus it was'
     })
 
     // Send push notification to each subscriber
@@ -85,7 +85,10 @@ serve(async (req) => {
             payload,
             {
               TTL: 60,
-              urgency: 'high'
+              urgency: 'high',
+              headers: {
+                Urgency: 'high'
+              }
             }
           )
           return { success: true, endpoint: subscription.endpoint }

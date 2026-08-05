@@ -82,9 +82,10 @@ self.addEventListener('push', (event) => {
     const options = {
       body,
       icon,
-      badge: '/icon-192.png',
+      badge: '/badge96.png',
       requireInteraction: false, // Makes notification dismissible (standard OS behavior)
       tag: 'bus-reminder', // Allows replacing notifications with same tag
+      vibrate: [200, 100, 200]
     }
 
     console.log('[SW] Showing notification:', title, options)
@@ -95,11 +96,12 @@ self.addEventListener('push', (event) => {
     console.error('[SW] Error in push event handler:', error)
     // Still attempt to show a fallback notification
     event.waitUntil(
-      self.registration.showNotification('Log your bus trip', {
-        body: 'Tap to record the bus you just rode',
+      self.registration.showNotification("Didn't fill the bus data?", {
+        body: 'Tap now before you forget which bus it was',
         icon: '/icon-192.png',
-        badge: '/icon-192.png',
-        tag: 'bus-reminder'
+        badge: '/badge96.png',
+        tag: 'bus-reminder',
+        vibrate: [200, 100, 200]
       })
     )
   }
