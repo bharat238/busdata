@@ -46,14 +46,17 @@ export default function Settings({ showFloatingButton = true }: { showFloatingBu
 
       if (subscription && supabaseConfigured && supabase) {
         // Check mute status from Supabase
+        console.log('[Settings] Checking mute status for endpoint:', subscription.endpoint)
         const { data, error } = await supabase
           .from('push_subscriptions')
           .select('muted')
           .eq('endpoint', subscription.endpoint)
           .single()
         
+        console.log('[Settings] Mute status query result:', { data, error })
+        
         if (error) {
-          console.error('Error fetching mute status:', error)
+          console.error('[Settings] Error fetching mute status:', error)
           // Default to muted=true if we can't fetch the status to avoid showing incorrect ON state
           setIsMuted(true)
         } else if (data) {
@@ -169,16 +172,27 @@ export default function Settings({ showFloatingButton = true }: { showFloatingBu
         return
       }
 
-      const { error } = await supabase
+      console.log('[Settings] Toggle mute:', newMutedState, 'for endpoint:', subscription.endpoint)
+      
+      const { data, error, count } = await supabase
         .from('push_subscriptions')
         .update({ muted: newMutedState })
         .eq('endpoint', subscription.endpoint)
+        .select()
+
+      console.log('[Settings] Update response:', { data, error, count })
 
       if (error) {
+        console.error('[Settings] Update failed:', error)
         setIsMuted(!newMutedState) // Revert on error
         setError('Failed to update mute status.')
+      } else if (count === 0) {
+        console.error('[Settings] Update matched 0 rows - endpoint might not exist in database')
+        setIsMuted(!newMutedState) // Revert if no rows were updated
+        setError('Failed to update mute status - subscription not found in database.')
       }
     } catch (e) {
+      console.error('[Settings] Toggle mute error:', e)
       setIsMuted(!newMutedState) // Revert on error
       setError('Failed to update mute status.')
     }
