@@ -65,23 +65,40 @@ self.addEventListener('fetch', (event) => {
 
 // Push notification handling
 self.addEventListener('push', (event) => {
-  const data = event.data?.json()
+  console.log('[SW] Push event received')
 
-  const title = data?.title || 'Log your bus trip'
-  const body = data?.body || 'Tap to record the bus you just rode'
-  const icon = '/icon-192.png'
+  try {
+    const data = event.data?.json()
+    console.log('[SW] Push payload:', data)
 
-  const options = {
-    body,
-    icon,
-    badge: '/icon-192.png',
-    requireInteraction: false, // Makes notification dismissible (standard OS behavior)
-    tag: 'bus-reminder', // Allows replacing notifications with same tag
+    const title = data?.title || 'Log your bus trip'
+    const body = data?.body || 'Tap to record the bus you just rode'
+    const icon = '/icon-192.png'
+
+    const options = {
+      body,
+      icon,
+      badge: '/icon-192.png',
+      requireInteraction: false, // Makes notification dismissible (standard OS behavior)
+      tag: 'bus-reminder', // Allows replacing notifications with same tag
+    }
+
+    console.log('[SW] Showing notification:', title, options)
+    event.waitUntil(
+      self.registration.showNotification(title, options)
+    )
+  } catch (error) {
+    console.error('[SW] Error in push event handler:', error)
+    // Still attempt to show a fallback notification
+    event.waitUntil(
+      self.registration.showNotification('Log your bus trip', {
+        body: 'Tap to record the bus you just rode',
+        icon: '/icon-192.png',
+        badge: '/icon-192.png',
+        tag: 'bus-reminder'
+      })
+    )
   }
-
-  event.waitUntil(
-    self.registration.showNotification(title, options)
-  )
 })
 
 self.addEventListener('notificationclick', (event) => {

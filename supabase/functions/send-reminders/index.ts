@@ -80,7 +80,14 @@ serve(async (req) => {
             }
           }
 
-          await webPush.sendNotification(pushSubscription, payload)
+          await webPush.sendNotification(
+            pushSubscription, 
+            payload,
+            {
+              TTL: 60,
+              urgency: 'high'
+            }
+          )
           return { success: true, endpoint: subscription.endpoint }
         } catch (error: any) {
           // If subscription is expired/invalid (410/404), delete it
