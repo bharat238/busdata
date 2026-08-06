@@ -405,7 +405,7 @@ export default function Settings({ showFloatingButton = true }: { showFloatingBu
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
               <div>
                 <div style={{ fontSize: 15, fontWeight: 600, color: '#111', marginBottom: 4 }}>
-                  Trip reminders
+                  Bus data reminders
                 </div>
                 <div style={{ fontSize: 13, color: '#6B7280' }}>
                   {isSubscribed ? 'Enabled' : 'Not enabled'}
