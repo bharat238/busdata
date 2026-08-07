@@ -16,6 +16,18 @@ export default function Settings({ showFloatingButton = true }: { showFloatingBu
     return () => document.removeEventListener('settings-trigger', handleSettingsTrigger as any)
   }, [])
 
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isOpen])
+
   useEffect(() => {
     // Check if user has already seen the opt-in
     const hasSeenOptIn = localStorage.getItem('pushOptInSeen')
@@ -368,9 +380,9 @@ export default function Settings({ showFloatingButton = true }: { showFloatingBu
         borderRadius: '24px 24px 0 0',
         width: '100%',
         maxWidth: 560,
-        maxHeight: '80vh',
+        maxHeight: 'calc(100vh - 80px)',
         overflowY: 'auto',
-        padding: '24px 20px 32px'
+        padding: '24px 20px 80px'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
           <h2 style={{ fontSize: 20, fontWeight: 700, color: '#111', margin: 0 }}>
