@@ -262,7 +262,7 @@ export default function Settings({ showFloatingButton = true }: { showFloatingBu
                   Get trip reminders
                 </div>
                 <div style={{ fontSize: 13, color: '#6B7280', marginBottom: 12, lineHeight: 1.5 }}>
-                  Receive gentle reminders to log your bus trips at 8:30 AM, 1:30 PM, and 6:30 PM IST.
+                  Receive gentle reminders to log your bus trips at 9:00 AM, 2:00 PM, and 6:00 PM IST.
                 </div>
                 <div style={{ display: 'flex', gap: 8 }}>
                   <button
@@ -520,7 +520,7 @@ export default function Settings({ showFloatingButton = true }: { showFloatingBu
             color: '#6B7280',
             lineHeight: 1.5
           }}>
-            <strong>Reminder schedule:</strong> 8:30 AM, 1:30 PM, 6:30 PM IST. Notifications are dismissible and can be muted anytime.
+            <strong>Reminder schedule:</strong> 9:00 AM, 2:00 PM, 6:00 PM IST. Notifications are dismissible and can be muted anytime.
           </div>
         </div>
 
