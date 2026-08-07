@@ -7,10 +7,18 @@ precacheAndRoute(self.__WB_MANIFEST)
 const CACHE_VERSION = 'v1'
 const CACHE_NAME = `busdata-${CACHE_VERSION}`
 
-// Install event - skip waiting to activate immediately
+// Install event - do NOT skip waiting (controlled by PWA update banner)
 self.addEventListener('install', (event) => {
   console.log('[SW] Installing new service worker')
-  self.skipWaiting()
+  // Do NOT call self.skipWaiting() here - let it wait for user confirmation
+})
+
+// Handle skipWaiting message from PWA update banner
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    console.log('[SW] Skip waiting requested by user')
+    self.skipWaiting()
+  }
 })
 
 // Activate event - claim clients and clean old caches
@@ -18,7 +26,7 @@ self.addEventListener('activate', (event) => {
   console.log('[SW] Activating new service worker')
   event.waitUntil(
     Promise.all([
-      // Take control of all clients immediately
+      // Take control of all clients immediately when activated
       self.clients.claim(),
       // Delete old caches
       caches.keys().then((cacheNames) => {

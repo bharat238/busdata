@@ -75,6 +75,11 @@ export default defineConfig({
       injectManifest: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
       },
+      workbox: {
+        // Don't auto-activate waiting service workers - let user control via banner
+        skipWaiting: false,
+        clientsClaim: false,
+      },
     }),
   ],
   resolve: {

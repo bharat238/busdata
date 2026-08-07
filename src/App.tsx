@@ -1,9 +1,11 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
+import React from 'react'
 import { supabase, supabaseConfigured, type BusReport } from './lib/supabase'
 import { Bus, Check, ChevronDown, ChevronUp, MapPin, Send, Sparkles } from "lucide-react";
 import logoImage from './imports/image_8d0608d.png'
 import InstallPrompt from './components/InstallPrompt'
 import Settings from './components/Settings'
+import PWAUpdateBanner from './components/PWAUpdateBanner'
 
 // ─── Demo data shown when Supabase is not connected ───────────────────────────
 const DEMO_REPORTS: BusReport[] = [
@@ -280,7 +282,7 @@ const nudgeBtn: React.CSSProperties = {
 }
 
 // ─── Autocomplete Input ────────────────────────────────────────────────────────
-function AutocompleteInput({
+function AutocompleteInputComponent({
   label,
   placeholder,
   value,
@@ -298,9 +300,12 @@ function AutocompleteInput({
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
 
-  const filtered = suggestions.filter(s =>
-    s.toLowerCase().includes(value.toLowerCase()) && s.toLowerCase() !== value.toLowerCase()
-  ).slice(0, 6)
+  const filtered = useMemo(() => 
+    suggestions.filter(s =>
+      s.toLowerCase().includes(value.toLowerCase()) && s.toLowerCase() !== value.toLowerCase()
+    ).slice(0, 6),
+    [suggestions, value]
+  )
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -341,6 +346,8 @@ function AutocompleteInput({
     </div>
   )
 }
+
+const AutocompleteInput = React.memo(AutocompleteInputComponent)
 
 const labelStyle: React.CSSProperties = {
   display: 'block', fontSize: 13, fontWeight: 600, color: '#1F2937', marginBottom: 6,
@@ -591,6 +598,7 @@ export default function App() {
 
   return (
     <div style={{ fontFamily: 'system-ui, -apple-system, "Helvetica Neue", sans-serif', background: '#F9FAFB', minHeight: '100vh', paddingBottom: 80 }}>
+      <PWAUpdateBanner />
 
       {/* Home Page (Form) */}
       {activePage === 'home' && (
