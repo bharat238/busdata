@@ -119,6 +119,7 @@ export default function PWAUpdateBanner() {
         </button>
         <button
           onClick={handleDismiss}
+          aria-label="Dismiss"
           style={{
             background: 'none',
             border: 'none',

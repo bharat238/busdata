@@ -212,11 +212,11 @@ function TimeStepper({ value, onChange }: { value: number; onChange: (v: number)
       <div style={{ display: 'flex', alignItems: 'center', gap: 0 }}>
         {/* HR column */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, minWidth: 52 }}>
-          <button onClick={() => adjust(60)} style={chevBtn}>
+          <button onClick={() => adjust(60)} aria-label="Increase hour" style={chevBtn}>
             <ChevronUp size={14} />
           </button>
           <span style={digitStyle}>{String(hr).padStart(2, '0')}</span>
-          <button onClick={() => adjust(-60)} style={chevBtn}>
+          <button onClick={() => adjust(-60)} aria-label="Decrease hour" style={chevBtn}>
             <ChevronDown size={14} />
           </button>
           <span style={unitLabel}>HR</span>
@@ -227,11 +227,11 @@ function TimeStepper({ value, onChange }: { value: number; onChange: (v: number)
 
         {/* MIN column */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, minWidth: 52 }}>
-          <button onClick={() => adjust(1)} style={chevBtn}>
+          <button onClick={() => adjust(1)} aria-label="Increase minute" style={chevBtn}>
             <ChevronUp size={14} />
           </button>
           <span style={digitStyle}>{String(mn).padStart(2, '0')}</span>
-          <button onClick={() => adjust(-1)} style={chevBtn}>
+          <button onClick={() => adjust(-1)} aria-label="Decrease minute" style={chevBtn}>
             <ChevronDown size={14} />
           </button>
           <span style={unitLabel}>MIN</span>
@@ -600,9 +600,10 @@ export default function App() {
     <div style={{ fontFamily: 'system-ui, -apple-system, "Helvetica Neue", sans-serif', background: '#F9FAFB', minHeight: '100vh', paddingBottom: 80 }}>
       <PWAUpdateBanner />
 
-      {/* Home Page (Form) */}
-      {activePage === 'home' && (
-        <>
+      <main>
+        {/* Home Page (Form) */}
+        {activePage === 'home' && (
+          <>
           {/* ─── Hero ─────────────────────────────────────────────────────────────── */}
           <div style={{
             background: 'radial-gradient(ellipse 80% 60% at 20% 0%, rgba(245,158,11,0.12) 0%, transparent 60%), linear-gradient(160deg, #0F172A 0%, #0B0F0E 100%)',
@@ -628,6 +629,7 @@ export default function App() {
                   const event = new CustomEvent('settings-trigger')
                   document.dispatchEvent(event)
                 }}
+                aria-label="Settings"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -857,6 +859,7 @@ export default function App() {
                 const event = new CustomEvent('settings-trigger')
                 document.dispatchEvent(event)
               }}
+              aria-label="Settings"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -939,6 +942,7 @@ export default function App() {
           </div>
         </div>
       )}
+      </main>
 
       {/* Bottom Tab Navigation */}
       {!isKeyboardOpen && (
@@ -958,6 +962,7 @@ export default function App() {
         {/* Home Tab */}
         <button
           onClick={() => setActivePage('home')}
+          aria-label="Home"
           style={{
             display: 'flex',
             flexDirection: 'column',
@@ -991,6 +996,7 @@ export default function App() {
         {/* Data Tab */}
         <button
           onClick={() => setActivePage('data')}
+          aria-label="Data"
           style={{
             display: 'flex',
             flexDirection: 'column',

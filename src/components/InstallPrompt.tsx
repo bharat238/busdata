@@ -139,6 +139,7 @@ export default function InstallPrompt() {
           )}
           <button
             onClick={handleDismiss}
+            aria-label="Dismiss"
             style={{
               background: 'transparent',
               border: 'none',

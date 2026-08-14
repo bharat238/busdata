@@ -312,6 +312,7 @@ export default function Settings({ showFloatingButton = true }: { showFloatingBu
               </div>
               <button
                 onClick={dismissOptIn}
+                aria-label="Close"
                 style={{
                   background: 'none',
                   border: 'none',
@@ -330,6 +331,7 @@ export default function Settings({ showFloatingButton = true }: { showFloatingBu
         {showFloatingButton && (
           <button
             onClick={() => setIsOpen(true)}
+            aria-label="Settings"
             style={{
               position: 'fixed',
               top: 16,
@@ -390,6 +392,7 @@ export default function Settings({ showFloatingButton = true }: { showFloatingBu
           </h2>
           <button
             onClick={() => setIsOpen(false)}
+            aria-label="Close"
             style={{
               background: 'none',
               border: 'none',
